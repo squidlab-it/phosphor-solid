@@ -33,20 +33,49 @@ function App() {
 }
 ```
 
-Every component accepts a `weight` prop plus any standard SVG attribute.
-Sizing and coloring are handled via CSS — `fill="currentColor"` is set by default.
+Every component accepts the props listed below plus any standard SVG attribute.
+`fill="currentColor"` is set by default, so the icon inherits the parent's text color.
 
 ## Props
 
-| Prop     | Type            | Default     | Description           |
-| -------- | --------------- | ----------- | --------------------- |
-| `weight` | `IconWeight`    | `"regular"` | Icon stroke weight    |
-| …        | `SVGAttributes` | —           | Any standard SVG attr |
+| Prop       | Type               | Default          | Description                                          |
+| ---------- | ------------------ | ---------------- | ---------------------------------------------------- |
+| `weight`   | `IconWeight`       | `"regular"`      | Icon stroke weight                                   |
+| `size`     | `string \| number` | —                | Sets both `width` and `height`                       |
+| `color`    | `string`           | `"currentColor"` | Fill color                                           |
+| `mirrored` | `boolean`          | `false`          | Flip the icon horizontally                           |
+| `alt`      | `string`           | —                | Accessible text rendered as `<title>` inside the SVG |
+| …          | `SVGAttributes`    | —                | Any standard SVG attr                                |
 
 ```ts
 type IconWeight = "thin" | "light" | "regular" | "bold" | "fill" | "duotone";
 ```
 
+## Context
+
+Use `IconProvider` to set default props for all descendant icons, avoiding repetition:
+
+```tsx
+import { IconProvider, HouseIcon, GearIcon } from "@squidlab/phosphor-solid";
+
+function App() {
+  return (
+    <IconProvider color="white" size={32} weight="bold">
+      <HouseIcon />
+      <GearIcon />
+    </IconProvider>
+  );
+}
+```
+
+Props passed directly to an icon take precedence over context values.
+
+| Prop       | Type               | Default          |
+| ---------- | ------------------ | ---------------- |
+| `color`    | `string`           | `"currentColor"` |
+| `size`     | `string \| number` | —                |
+| `weight`   | `IconWeight`       | `"regular"`      |
+| `mirrored` | `boolean`          | `false`          |
 ## Import styles
 
 ### Individual imports (recommended)

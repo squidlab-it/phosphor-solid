@@ -1,8 +1,9 @@
 /* GENERATED FILE */
-import { type JSX, splitProps } from "solid-js";
-import type { IconProps } from "../lib/types.ts";
+import type { JSX } from "solid-js";
+import { IconBase } from "../lib/IconBase.tsx";
+import type { IconProps, IconWeight } from "../lib/types.ts";
 
-const weights = new Map<IconProps["weight"], JSX.Element>([
+const weights = new Map<IconWeight, JSX.Element>([
   [
     "thin",
     <g>
@@ -53,19 +54,6 @@ const weights = new Map<IconProps["weight"], JSX.Element>([
  * <CalendarSlashIcon weight="regular" />
  * ```
  */
-export function CalendarSlashIcon(rawProps: IconProps): JSX.Element {
-  const [local, others] = splitProps(rawProps, ["weight"]);
-  const weight = local.weight ?? "regular";
-  const content = weights.get(weight) ?? weights.get("regular");
-
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 256 256"
-      fill="currentColor"
-      {...others}
-    >
-      {content}
-    </svg>
-  );
+export function CalendarSlashIcon(props: IconProps): JSX.Element {
+  return <IconBase weights={weights} {...props} />;
 }

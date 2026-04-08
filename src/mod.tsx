@@ -14,4 +14,5 @@
  */
 
 export * from "./icons/mod.tsx";
+export { IconProvider } from "./lib/IconProvider.tsx";
 export type { IconProps, IconWeight } from "./lib/types.ts";

@@ -1,7 +1,7 @@
-import { type IconEntry, icons } from "@phosphor-icons/core";
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { type IconEntry, icons } from "@phosphor-icons/core";
 
 const WEIGHTS = [
   "thin",
@@ -35,12 +35,42 @@ function readSvg(weight: string, name: string): string | null {
   }
 }
 
-function svgToJsx(svg: string): string {
+function extractPaths(svg: string): string[] {
   const inner = svg
     .replace(/<svg[^>]*>/, "")
     .replace(/<\/svg>/, "")
     .trim();
-  return `<g>${inner}</g>`;
+  const paths: string[] = [];
+  const re = /<path\s+([^>]*?)\/>/g;
+  for (let match = re.exec(inner); match !== null; match = re.exec(inner)) {
+    paths.push(match[1].trim());
+  }
+  return paths;
+}
+
+function formatPath(attrStr: string, indent: string): string {
+  const attrs: { name: string; value: string }[] = [];
+  const re = /(\w+)="([^"]*)"/g;
+  for (let match = re.exec(attrStr); match !== null; match = re.exec(attrStr)) {
+    attrs.push({ name: match[1], value: match[2] });
+  }
+  const singleLine = `${indent}<path ${attrs.map((a) => `${a.name}="${a.value}"`).join(" ")} />`;
+  if (singleLine.length <= 80) {
+    return singleLine;
+  }
+  if (attrs.length <= 1) {
+    return singleLine;
+  }
+  const attrLines = attrs
+    .map((a) => `${indent}  ${a.name}="${a.value}"`)
+    .join("\n");
+  return `${indent}<path\n${attrLines}\n${indent}/>`;
+}
+
+function formatEntry(weight: string, svg: string): string {
+  const paths = extractPaths(svg);
+  const formattedPaths = paths.map((p) => formatPath(p, "      ")).join("\n");
+  return `  [\n    "${weight}",\n    <g>\n${formattedPaths}\n    </g>,\n  ]`;
 }
 
 function main() {
@@ -59,7 +89,7 @@ function main() {
     for (const weight of WEIGHTS) {
       const svg = readSvg(weight, icon.name);
       if (svg) {
-        weights.set(weight, svgToJsx(svg));
+        weights.set(weight, svg);
       }
     }
 
@@ -70,17 +100,18 @@ function main() {
     }
 
     const entries = [...weights]
-      .map(([w, content]) => `  ["${w}", ${content}]`)
+      .map(([w, svg]) => formatEntry(w, svg))
       .join(",\n");
 
     const componentName = `${name}Icon`;
 
     const componentContent = `\
 /* GENERATED FILE */
-import { type JSX, splitProps } from "solid-js";
-import type { IconProps } from "../lib/types.ts";
+import type { JSX } from "solid-js";
+import { IconBase } from "../lib/IconBase.tsx";
+import type { IconProps, IconWeight } from "../lib/types.ts";
 
-const weights = new Map<IconProps["weight"], JSX.Element>([
+const weights = new Map<IconWeight, JSX.Element>([
 ${entries},
 ]);
 
@@ -92,21 +123,8 @@ ${entries},
  * <${componentName} weight="regular" />
  * \`\`\`
  */
-export function ${componentName}(rawProps: IconProps): JSX.Element {
-  const [local, others] = splitProps(rawProps, ["weight"]);
-  const weight = local.weight ?? "regular";
-  const content = weights.get(weight) ?? weights.get("regular");
-
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 256 256"
-      fill="currentColor"
-      {...others}
-    >
-      {content}
-    </svg>
-  );
+export function ${componentName}(props: IconProps): JSX.Element {
+  return <IconBase weights={weights} {...props} />;
 }
 `;
 
@@ -120,18 +138,33 @@ export function ${componentName}(rawProps: IconProps): JSX.Element {
     }
   }
 
-  const exports = iconList
-    .map((icon) => {
-      const name = pascalize(icon.name);
-      const componentName = `${name}Icon`;
-      let line = `export { ${componentName} } from "./${name}.tsx";`;
-      if (icon.alias) {
-        const aliasName = pascalize(icon.alias.name);
-        line += `\nexport { ${componentName} as ${aliasName}Icon } from "./${name}.tsx";`;
-      }
-      return line;
+  const exportsBySource = new Map<string, string[]>();
+  for (const icon of iconList) {
+    const name = pascalize(icon.name);
+    const componentName = `${name}Icon`;
+    const names = exportsBySource.get(name) ?? [];
+    names.push(componentName);
+    if (icon.alias) {
+      const aliasComponentName = `${pascalize(icon.alias.name)}Icon`;
+      names.push(`${componentName} as ${aliasComponentName}`);
+    }
+    exportsBySource.set(name, names);
+  }
+  const exportLines = [...exportsBySource.entries()]
+    .sort(([a], [b]) => {
+      const al = a.toLowerCase();
+      const bl = b.toLowerCase();
+      return al < bl ? -1 : al > bl ? 1 : 0;
     })
-    .join("\n");
+    .map(([source, names]) => {
+      const singleLine = `export { ${names.join(", ")} } from "./${source}.tsx";`;
+      if (singleLine.length <= 80 || names.length <= 1) {
+        return singleLine;
+      }
+      const namedExports = names.map((n) => `  ${n},`).join("\n");
+      return `export {\n${namedExports}\n} from "./${source}.tsx";`;
+    });
+  const exports = exportLines.join("\n");
 
   const exportsMap: Record<string, string> = {
     ".": "./src/mod.tsx",
