@@ -26,7 +26,7 @@ bun add @squidlab/phosphor-solid
 ## Quick start
 
 ```tsx
-import { HouseIcon } from "@squidlab/phosphor-solid";
+import { HouseIcon } from "@squidlab/phosphor-solid/house";
 
 function App() {
   return <HouseIcon weight="bold" class="w-6 h-6 text-white" />;
@@ -56,7 +56,9 @@ type IconWeight = "thin" | "light" | "regular" | "bold" | "fill" | "duotone";
 Use `IconProvider` to set default props for all descendant icons, avoiding repetition:
 
 ```tsx
-import { IconProvider, HouseIcon, GearIcon } from "@squidlab/phosphor-solid";
+import { IconProvider } from "@squidlab/phosphor-solid";
+import { HouseIcon } from "@squidlab/phosphor-solid/house";
+import { GearIcon } from "@squidlab/phosphor-solid/gear";
 
 function App() {
   return (
@@ -83,20 +85,21 @@ Props passed directly to an icon take precedence over context values.
 Each icon is exposed as its own entry point for the best possible tree-shaking:
 
 ```ts
+import { IconProvider } from "@squidlab/phosphor-solid";
 import { ArrowRightIcon } from "@squidlab/phosphor-solid/arrow-right";
 import { GithubLogoIcon } from "@squidlab/phosphor-solid/github-logo";
 ```
 
 ### Barrel import
 
-Import multiple icons from the package root — still tree-shakeable:
+Import all icons at once via the `/icons` subpath. This will include every icon in your bundle, so use it only when you genuinely need the full set:
 
 ```ts
 import {
   ArrowRightIcon,
   GithubLogoIcon,
   HouseIcon,
-} from "@squidlab/phosphor-solid";
+} from "@squidlab/phosphor-solid/icons";
 ```
 
 ### Namespace import

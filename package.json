@@ -5,7 +5,7 @@
   "description": "Phosphor is a flexible icon family for SolidJS, featuring 1,500+ icons across six weights: thin, light, regular, bold, fill, and duotone.",
   "type": "module",
   "exports": {
-    ".": "./src/mod.tsx",
+    ".": "./src/lib/mod.tsx",
     "./icons": "./src/icons/mod.tsx",
     "./acorn": "./src/icons/Acorn.tsx",
     "./address-book": "./src/icons/AddressBook.tsx",
