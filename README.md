@@ -1,14 +1,16 @@
 # @squidlab/phosphor-solid
 
 <!-- BEGIN_LOGO -->
-<img src="/.github/logo.png" width="128" align="right" />
+<p align="right">
+  <img src="/.github/logo-svelte.svg" width="128" />
+  <img src="/.github/logo-phosphor.png" width="128" />
+</p>
 <!-- END_LOGO -->
 
 [Phosphor Icons](https://phosphoricons.com) for [SolidJS](https://www.solidjs.com/).
 
 [![NPM](https://img.shields.io/npm/v/@squidlab/phosphor-solid.svg?style=flat-square)](https://www.npmjs.com/package/@squidlab/phosphor-solid)
 [![CI](https://img.shields.io/github/actions/workflow/status/squidlab-it/phosphor-solid/ci.yml?branch=main&style=flat-square)](https://github.com/squidlab-it/phosphor-solid/actions/workflows/ci.yml)
-
 [![GitHub stars](https://img.shields.io/github/stars/squidlab-it/phosphor-solid?style=flat-square&label=Star)](https://github.com/squidlab-it/phosphor-solid)
 [![GitHub forks](https://img.shields.io/github/forks/squidlab-it/phosphor-solid?style=flat-square&label=Fork)](https://github.com/squidlab-it/phosphor-solid/fork)
 [![GitHub watchers](https://img.shields.io/github/watchers/squidlab-it/phosphor-solid?style=flat-square&label=Watch)](https://github.com/squidlab-it/phosphor-solid)
