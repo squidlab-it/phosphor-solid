@@ -1,6 +1,17 @@
 # @squidlab/phosphor-solid
 
+<!-- BEGIN_LOGO -->
+<img src="/.github/logo.png" width="128" align="right" />
+<!-- END_LOGO -->
+
 [Phosphor Icons](https://phosphoricons.com) for [SolidJS](https://www.solidjs.com/).
+
+[![NPM](https://img.shields.io/npm/v/@squidlab/phosphor-solid.svg?style=flat-square)](https://www.npmjs.com/package/@squidlab/phosphor-solid)
+[![CI](https://img.shields.io/github/actions/workflow/status/squidlab-it/phosphor-solid/ci.yml?branch=main&style=flat-square)](https://github.com/squidlab-it/phosphor-solid/actions/workflows/ci.yml)
+
+[![GitHub stars](https://img.shields.io/github/stars/squidlab-it/phosphor-solid?style=flat-square&label=Star)](https://github.com/squidlab-it/phosphor-solid)
+[![GitHub forks](https://img.shields.io/github/forks/squidlab-it/phosphor-solid?style=flat-square&label=Fork)](https://github.com/squidlab-it/phosphor-solid/fork)
+[![GitHub watchers](https://img.shields.io/github/watchers/squidlab-it/phosphor-solid?style=flat-square&label=Watch)](https://github.com/squidlab-it/phosphor-solid)
 
 1,500+ icons across six weights — thin, light, regular, bold, fill, and duotone — each as a standalone SolidJS component. Icons are sourced from [@phosphor-icons/core](https://github.com/phosphor-icons/core).
 
