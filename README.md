@@ -1,10 +1,8 @@
 # @squidlab/phosphor-solid
 
 <!-- BEGIN_LOGO -->
-<p align="right">
-  <img src="/.github/logo-svelte.svg" width="128" />
-  <img src="/.github/logo-phosphor.png" width="128" />
-</p>
+<img src="/.github/logo-svelte.svg" width="128" align="right" />
+<img src="/.github/logo-phosphor.png" width="128" align="right" />
 <!-- END_LOGO -->
 
 [Phosphor Icons](https://phosphoricons.com) for [SolidJS](https://www.solidjs.com/).
