@@ -1,9 +1,9 @@
 import { type JSX, mergeProps, splitProps, useContext } from "solid-js";
-import { IconContext } from "./context.ts";
-import type { IconProps, IconWeight } from "./types.ts";
+import { IconContext } from "./context";
+import type { IconProps, IconWeight } from "./types";
 
 interface IconBaseProps extends IconProps {
-  weights: Map<IconWeight, JSX.Element>;
+  weights: Map<IconWeight, () => JSX.Element>;
 }
 
 export function IconBase(rawProps: IconBaseProps): JSX.Element {
@@ -41,7 +41,7 @@ export function IconBase(rawProps: IconBaseProps): JSX.Element {
     >
       {local.alt && <title>{local.alt}</title>}
       {local.children}
-      {local.weights.get(local.weight)}
+      {local.weights.get(local.weight)?.()}
     </svg>
   );
 }

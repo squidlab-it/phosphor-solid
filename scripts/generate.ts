@@ -69,8 +69,8 @@ function formatPath(attrStr: string, indent: string): string {
 
 function formatEntry(weight: string, svg: string): string {
   const paths = extractPaths(svg);
-  const formattedPaths = paths.map((p) => formatPath(p, "      ")).join("\n");
-  return `  [\n    "${weight}",\n    <g>\n${formattedPaths}\n    </g>,\n  ]`;
+  const formattedPaths = paths.map((p) => formatPath(p, "        ")).join("\n");
+  return `  [\n    "${weight}",\n    () => (\n      <g>\n${formattedPaths}\n      </g>\n    ),\n  ]`;
 }
 
 function main() {
@@ -108,10 +108,10 @@ function main() {
     const componentContent = `\
 /* GENERATED FILE */
 import type { JSX } from "solid-js";
-import { IconBase } from "../lib/IconBase.tsx";
-import type { IconProps, IconWeight } from "../lib/types.ts";
+import { IconBase } from "../lib/IconBase";
+import type { IconProps, IconWeight } from "../lib/types";
 
-const weights = new Map<IconWeight, JSX.Element>([
+const weights = new Map<IconWeight, () => JSX.Element>([
 ${entries},
 ]);
 
@@ -157,17 +157,17 @@ export function ${componentName}(props: IconProps): JSX.Element {
       return al < bl ? -1 : al > bl ? 1 : 0;
     })
     .map(([source, names]) => {
-      const singleLine = `export { ${names.join(", ")} } from "./${source}.tsx";`;
+      const singleLine = `export { ${names.join(", ")} } from "./${source}";`;
       if (singleLine.length <= 80 || names.length <= 1) {
         return singleLine;
       }
       const namedExports = names.map((n) => `  ${n},`).join("\n");
-      return `export {\n${namedExports}\n} from "./${source}.tsx";`;
+      return `export {\n${namedExports}\n} from "./${source}";`;
     });
   const exports = exportLines.join("\n");
 
   const exportsMap: Record<string, string> = {
-    ".": "./src/mod.tsx",
+    ".": "./src/lib/mod.tsx",
     "./icons": "./src/icons/mod.tsx",
   };
 

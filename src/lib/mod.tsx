@@ -17,6 +17,6 @@
  * ```
  */
 
-export { IconProvider } from "./IconProvider.tsx";
-export { IconContext, type IconContextValue } from "./context.ts";
-export type { IconProps, IconWeight } from "./types.ts";
+export { IconProvider } from "./IconProvider";
+export { IconContext, type IconContextValue } from "./context";
+export type { IconProps, IconWeight } from "./types";

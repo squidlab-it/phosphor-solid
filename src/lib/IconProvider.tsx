@@ -1,6 +1,6 @@
 import type { JSX } from "solid-js";
-import { IconContext, type IconContextValue } from "./context.ts";
-import type { IconWeight } from "./types.ts";
+import { IconContext, type IconContextValue } from "./context";
+import type { IconWeight } from "./types";
 
 interface IconProviderProps {
   color?: string;

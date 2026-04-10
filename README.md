@@ -17,8 +17,8 @@
 
 ## Features
 
-- **Native TypeScript** — ships raw `.tsx` sources, fully typed out of the box with no extra `@types` needed
-- **SSR-compatible** — no browser APIs at render time; your bundler compiles the components for both server and client
+- **Native TypeScript** — ships raw `.tsx` sources, fully typed out of the box
+- **SSR-compatible** — components work in both server and client contexts
 - **Tree-shakeable** — unused icons are eliminated at build time by any modern bundler (Vite, Rollup, esbuild, …)
 - **Zero runtime dependencies** — only `solid-js` as a peer dependency
 
@@ -125,7 +125,7 @@ import * as Icons from "@squidlab/phosphor-solid/icons";
 
 ## Bundler notes
 
-Because the package exports TypeScript sources directly, your bundler must be configured to handle `.tsx` files from `node_modules`. SolidJS starters (e.g. `degit solidjs/templates/ts`) already do this via `vite-plugin-solid`.
+The package exports TypeScript sources directly. Your bundler must be configured to compile `.tsx` files from `node_modules`. SolidJS starters (e.g. `degit solidjs/templates/ts`) already do this via `vite-plugin-solid`.
 
 ## Version mapping
 
